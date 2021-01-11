@@ -1,0 +1,40 @@
+<html>
+
+<head>
+    <title>Loading...</title>
+</head>
+
+<body>
+    <script>
+        const genFading = (len) => {
+            const wait_t = 2000
+            const t = 500
+            const fade = () => {
+                document.title = document.title.slice(1)
+                if (document.title.length > 0)
+                    setTimeout(fade, t)
+                else {
+                    document.title = 'Loading...'
+                    setTimeout(goFetch, t)
+                }
+            }
+            setTimeout(fade, wait_t)
+        }
+
+        const goFetch = () =>
+            fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin%2Ctezos&vs_currencies=btc%2Cusd')
+            .then(x => x.json())
+            .then(x => {
+                const btc_usd = x.bitcoin.usd
+                const xtz_btc = x.tezos.btc
+                const xtz_usd = x.tezos.usd
+
+                document.title = `₿${btc_usd}/${xtz_btc.toString().slice(5)}/${xtz_usd}`
+                genFading()
+            })
+
+        goFetch()
+    </script>
+</body>
+
+</html>
