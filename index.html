@@ -1,12 +1,18 @@
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loading...</title>
+    <style>
+        * { font-size: 21px}
+    </style>
 </head>
 
 <body>
     <pre id="amounts"></pre>
     <script>
+        const round = x => x.toFixed(3)
+
         const genFading = (len) => {
             const wait_t = 2000
             const t = 500
@@ -48,12 +54,14 @@
                 const total_lqt = parseInt(x.lqtTotal)
                 const xtz = my_lqt / total_lqt * xtz_pool
                 const btc = my_lqt / total_lqt * btc_pool
-                const total_xtz = xtz / 1000000 + btc / 100000000 / xtz_btc 
-                amounts.innerHTML = `XTZ:${xtz / 1000000} 
-                    <br>BTC:${btc / 100000000}(${btc / 100000000 / xtz_btc }) 
-                    <br>total: ${xtz_usd * total_xtz}usd 
-                    <br>per day: ${7200 * my_lqt / total_lqt}xtz
-                    <br>diff: ${xtz_usd * (30700 - total_xtz)}usd   ${(total_xtz - 30700) / (7200 * my_lqt / total_lqt)}day
+                const xtz_from_btc = btc * 999 * xtz_pool / (btc_pool * 1000 + btc * 999) / 1000000
+                const total_xtz = xtz / 1000000 + xtz_from_btc 
+                amounts.innerHTML = `XTZ:${round(xtz / 1000000)} 
+                    <br>BTC:${round(btc / 100000000)}(${round(xtz_from_btc) }) 
+                    <br>total: ${round(xtz_usd * total_xtz)} usd 
+                    <br>per day: ${round(7200 * my_lqt / total_lqt)} xtz
+                    <br>diff: ${round(xtz_usd * (total_xtz - 30700))} usd
+                    <br>      ${round((total_xtz - 30700) / (7200 * my_lqt / total_lqt))} day
                     `
             })
 
