@@ -5,6 +5,7 @@
 </head>
 
 <body>
+    <pre id="amounts"></pre>
     <script>
         const genFading = (len) => {
             const wait_t = 2000
@@ -31,9 +32,31 @@
 
                 document.title = `₿${btc_usd}/${xtz_btc.toString().slice(5)}/${xtz_usd}`
                 genFading()
+                fetchStorage(xtz_btc, xtz_usd)
             })
 
         goFetch()
+
+        const my_lqt = 1657061
+        // LQT calc
+        const fetchStorage = (xtz_btc, xtz_usd) =>
+            fetch('https://api.tzkt.io/v1/contracts/KT1TxqZ8QtKvLu3V3JH7Gx58n7Co8pgtpQU5/storage')
+            .then(x => x.json())
+            .then(x => {
+                const xtz_pool = parseInt(x.xtzPool)
+                const btc_pool = parseInt(x.tokenPool)
+                const total_lqt = parseInt(x.lqtTotal)
+                const xtz = my_lqt / total_lqt * xtz_pool
+                const btc = my_lqt / total_lqt * btc_pool
+                const total_xtz = xtz / 1000000 + btc / 100000000 / xtz_btc 
+                amounts.innerHTML = `XTZ:${xtz / 1000000} 
+                    <br>BTC:${btc / 100000000}(${btc / 100000000 / xtz_btc }) 
+                    <br>total: ${xtz_usd * total_xtz}usd 
+                    <br>per day: ${7200 * my_lqt / total_lqt}xtz
+                    <br>diff: ${xtz_usd * (30700 - total_xtz)}usd   ${(total_xtz - 30700) / (7200 * my_lqt / total_lqt)}day
+                    `
+            })
+
     </script>
 </body>
 
