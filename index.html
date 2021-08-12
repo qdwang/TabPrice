@@ -55,9 +55,11 @@
                 const xtz = my_lqt / total_lqt * xtz_pool
                 const btc = my_lqt / total_lqt * btc_pool
                 const xtz_from_btc = btc * 999 * xtz_pool / (btc_pool * 1000 + btc * 999) / 1000000
+                const price = (btc / xtz_from_btc / 100000000).toFixed(8)
                 const total_xtz = xtz / 1000000 + xtz_from_btc 
                 amounts.innerHTML = `XTZ:${round(xtz / 1000000)} 
                     <br>BTC:${round(btc / 100000000)}(${round(xtz_from_btc) }) 
+                    <br>xtzbtc: ${price}
                     <br>total: ${round(xtz_usd * total_xtz)} usd 
                     <br>per day: ${round(7200 * my_lqt / total_lqt)} xtz
                     <br>diff: ${round(xtz_usd * (total_xtz - 30700))} usd
