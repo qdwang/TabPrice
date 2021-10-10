@@ -38,14 +38,14 @@
 
                 document.title = `₿${btc_usd}/${xtz_btc.toString().slice(5)}/${xtz_usd}`
                 genFading()
-                fetchStorage(xtz_btc, xtz_usd)
+                fetchStorage(xtz_btc, xtz_usd, btc_usd)
             })
 
         goFetch()
 
         const my_lqt = 1657061
         // LQT calc
-        const fetchStorage = (xtz_btc, xtz_usd) =>
+        const fetchStorage = (xtz_btc, xtz_usd, btc_usd) =>
             fetch('https://api.tzkt.io/v1/contracts/KT1TxqZ8QtKvLu3V3JH7Gx58n7Co8pgtpQU5/storage')
             .then(x => x.json())
             .then(x => {
@@ -57,10 +57,13 @@
                 const xtz_from_btc = btc * 999 * xtz_pool / (btc_pool * 1000 + btc * 999) / 1000000
                 const price = (btc / xtz_from_btc / 100000000).toFixed(8)
                 const total_xtz = xtz / 1000000 + xtz_from_btc 
+                const total_btc = (xtz_from_btc + xtz / 1000000) * xtz_btc + 17.313
+                
                 amounts.innerHTML = `XTZ:${round(xtz / 1000000)} / 15500
                     <br>BTC:${round(btc / 100000000)}(${round(xtz_from_btc) }) / 1.040
                     <br>xtzbtc: ${price}
                     <br>total: ${round((xtz_from_btc + xtz / 1000000) * xtz_btc)}btc ${round(xtz_usd * total_xtz)}usd 
+                    <br>ALL: ${round(total_btc)}btc * $${btc_usd} = ${total_btc * btc_usd}usd 
                     <br>per day: ${round(7200 * my_lqt / total_lqt)} xtz
                     <br>diff: ${round(total_xtz - 30700)} xtz
                     <br>      ${round((total_xtz - 30700) / (7200 * my_lqt / total_lqt))} day
