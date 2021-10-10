@@ -62,7 +62,7 @@
                 amounts.innerHTML = `XTZ:${round(xtz / 1000000)} / 15500
                     <br>BTC:${round(btc / 100000000)}(${round(xtz_from_btc) }) / 1.040
                     <br>xtzbtc: ${price}
-                    <br>total: ${round((xtz_from_btc + xtz / 1000000) * xtz_btc)}btc ${round(xtz_usd * total_xtz)}usd 
+                    <br>total: ${round((xtz_from_btc + xtz / 1000000) * xtz_btc)}btc ${parseInt(xtz_usd * total_xtz)}usd 
                     <br>ALL: ${round(total_btc)}btc * $${btc_usd} = ${total_btc * btc_usd}usd 
                     <br>per day: ${round(7200 * my_lqt / total_lqt)} xtz
                     <br>diff: ${round(total_xtz - 30700)} xtz
