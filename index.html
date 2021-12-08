@@ -29,19 +29,30 @@
         }
 
         const goFetch = () =>
-            fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin%2Ctezos&vs_currencies=btc%2Cusd')
+            fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin%2Ctezos%2Cfilecoin&vs_currencies=btc%2Cusd')
             .then(x => x.json())
             .then(x => {
                 const btc_usd = x.bitcoin.usd
                 const xtz_btc = x.tezos.btc
                 const xtz_usd = x.tezos.usd
+                const fil_usd = x.filecoin.usd
 
                 document.title = `₿${btc_usd}/${xtz_btc.toString().slice(5)}/${xtz_usd}`
                 genFading()
-                fetchStorage(xtz_btc, xtz_usd, btc_usd)
+                AllPrint(xtz_btc, xtz_usd, btc_usd, fil_usd)
+                // fetchStorage(xtz_btc, xtz_usd, btc_usd, fil_usd)
             })
 
         goFetch()
+        
+        const AllPrint = (xtz_btc, xtz_usd, btc_usd, fil_usd) => {
+            amounts.innerHTML = `
+                <br>XTZ_BTC: ${round(35000 * xtz_btc)}
+                <br>XTZ_USD: ${round(35000 * xtz_usd)} 
+                <br>TOTAL_USD: ${round((35000 * xtz_btc + 17.313) * btc_usd)}
+                <br>USD_FIL: $${fil_usd} / ${500 * fil_usd}
+            `
+        }
 
         const my_lqt = 1657061
         // LQT calc
