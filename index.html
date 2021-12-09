@@ -36,21 +36,21 @@
                 const xtz_btc = x.tezos.btc
                 const xtz_usd = x.tezos.usd
                 const fil_usd = x.filecoin.usd
+                const fil_btc = x.filecoin.btc
 
                 document.title = `₿${btc_usd}/${xtz_btc.toString().slice(5)}/${xtz_usd}`
                 genFading()
-                AllPrint(xtz_btc, xtz_usd, btc_usd, fil_usd)
+                AllPrint(xtz_btc, xtz_usd, btc_usd, fil_usd, fil_btc)
                 // fetchStorage(xtz_btc, xtz_usd, btc_usd, fil_usd)
             })
 
         goFetch()
         
-        const AllPrint = (xtz_btc, xtz_usd, btc_usd, fil_usd) => {
-            amounts.innerHTML = `
-                <br>XTZ_BTC: ${round(35000 * xtz_btc)}
-                <br>XTZ_USD: ${round(35000 * xtz_usd)} 
-                <br>TOTAL_USD: ${round((35000 * xtz_btc + 17.313) * btc_usd)}
-                <br>USD_FIL: $${fil_usd} / ${500 * fil_usd}
+        const AllPrint = (xtz_btc, xtz_usd, btc_usd, fil_usd, fil_btc) => {
+            amounts.innerHTML = `xtz: ${xtz_btc}(₿${round(35000 * xtz_btc)}) / $${xtz_usd}($${round(35000 * xtz_usd)})
+                <br>fil: ${fil_btc}(₿${round(500 * fil_btc)}) / $${fil_usd}($${round(500 * fil_usd)})
+                <br>btc: $${btc_usd}($${round(17.313 * btc_usd)})
+                <br>usd: $${round(35000 * xtz_usd + 500 * fil_usd + 17.313 * btc_usd)}
             `
         }
 
